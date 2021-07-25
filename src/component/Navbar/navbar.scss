@@ -1,0 +1,42 @@
+
+.navbar{
+    height: 60px;
+    background: #40a944;
+    .navbar-brand {
+        
+    }
+   .navbar-collapse {
+        .navbar-nav{
+            font-size: 18px;
+            .nav-link{
+                font-weight: 600;
+                color:#ffffffbf;
+                &:hover{
+                    color:#333;
+                }
+            }
+            span {
+                display: inline-block;
+                font-weight: 600;
+                color:#ffffffbf;
+                display: flex;
+                align-items: center;
+            }
+            #count{
+                span{
+                    font-size: 13px;
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border-radius: 100%;
+                background: #f10e0e;
+                text-align: center;
+                margin-right: 5px;
+                }
+                &:hover{
+                    color: white;
+                }
+            }
+        }
+   }
+}

@@ -1,0 +1,32 @@
+.banner{
+    
+    div {
+        text-align: center;
+    }
+}
+.form_login {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    form {
+        width: 350px;
+        padding: 60px 25px;
+        border: #333 2px solid;
+        div.submit_area{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            Button{
+                background: #40a944;
+                border: none
+            }
+            span{
+                margin-top: 10px;
+                display: block;
+                a {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}

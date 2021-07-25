@@ -1,0 +1,124 @@
+.container {
+    .main_detail {
+        margin-top: 70px;
+        .row {
+            .image {
+                padding: 0px 15px;
+                img.main {
+                    width: 100%;
+                    height: 500px;
+                }
+                .list_image {
+                    margin-top: 20px;
+                    img{
+                        width: 15%;
+                        margin-right: 5px;
+                        cursor: pointer;
+                    }
+                }
+            }
+            .info_detail {
+                padding: 0px 15px;
+                div.detail {
+                    border: 1px solid #e7e7e7;
+                    border-radius: 8px;
+                    padding: 30px;
+                    h1 {
+                        font-size: 1.7143em;
+                        color: #222;
+                        line-height: 1;
+                        margin-bottom: 10px;
+                        font-weight: 500;
+                    }
+                    div {
+                        margin-top: 20px;
+                        display: flex;
+                        align-items: flex-end;
+                        svg {
+                            color: red;
+                            font-size: 25px;
+                            margin-right: 15px;
+                        }
+                        span {
+                            text-align:end;
+                            display: inline-block;
+                            font-size: 20px;
+                        }
+                    }
+                    p.price{
+                        margin-top: 10px;
+                        color: #40a944 ;
+                        font-size: 25px;
+                        padding-bottom: 30px ;
+                        border-bottom: 1px solid #e7e7e7;
+                        span {
+                            color: red;
+                            text-decoration: line-through;
+                            font-size: 20px;
+                            margin-right: 10px;
+                        }
+                    }
+                    p.description {
+                        color :#666;
+                        font-size: 20px;
+                        padding-bottom: 30px ;
+                        border-bottom: 1px solid #e7e7e7;
+                    }
+                    div.form_area{
+                        padding-bottom: 30px ;
+                            border-bottom: 1px solid #e7e7e7;
+                        form {
+                            input {
+                                border: 1px solid #e7e7e7;
+                                padding: 10px;
+                                width: 100px;
+                                border-radius: 24px;
+                                text-align: center;
+                            }
+                            button{
+                                margin-left: 30px;
+                                background: #40a944;
+                                padding: 10px;
+                                color: white;
+                                width: 150px;
+                                text-align: center;
+                                border-radius: 24px;
+                                &:hover {
+                                    background: #000;
+                                }
+                            }
+                        }
+                    }
+                    div {
+                        span.category_name {
+                            margin-left: 8px;
+                            &:hover{
+                                color: #40a944;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    div.end_detail {
+                        align-items: center;
+                        padding-bottom: 30px;
+                        span {
+                            margin-right: 20px;
+                        }
+                        svg {
+                            margin-right: 20px;
+                            font-size: 23px;
+                            color: #666;
+                            &:hover {
+                                color: #40a944;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .owl-carousel {
+        width: 500px;
+    }
+}

@@ -1,0 +1,73 @@
+div.checkout {
+    .container{
+        margin-top: 30px;
+       .row{
+           .left{
+               div.customer_info {
+                   
+                   h3{
+                       text-align: center;
+                   }
+                   .info_form {
+                       margin-top: 50px;
+                   }
+               }
+
+           }
+           .right{
+                background-color: #f4f4f4;
+                div.bill_info {
+                    
+                    h3{
+                        text-align: center;
+                    }
+                    .title{
+                        margin-top: 50px;
+                        display: flex;
+                        justify-content: space-between;
+                        h4{
+                            padding: 5px 90px;
+                        }
+                    }
+                    p.product{
+                        font-size: 1rem;
+                        padding: 5px 80px;
+                        color: black;
+                        margin-bottom: 0px;
+                        display: flex;
+                        justify-content: space-between;
+                        span {
+                            display: inline-block;
+                            color: #40a944;
+                            margin-left: 70px;
+                        }
+                    }
+                    .total {
+                        margin-top: 10px;
+                        text-align:right;
+                        span{
+                            color:#40a944;
+                        }
+                    }
+                    .payment {
+                        padding: 10px 80px;
+                    }
+                    .checkout {
+                        text-align: right;
+                        padding: 20px;
+                        button{
+                            background: #40a944;
+                            padding: 10px 15px;
+                            border-radius: 24px;
+                            margin-right: 20px;
+                            color: white;
+                            &:hover {
+                                background: #333;
+                            }
+                        }
+                    }
+                }
+           }
+       } 
+    }
+}

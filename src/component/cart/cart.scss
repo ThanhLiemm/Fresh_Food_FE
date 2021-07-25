@@ -1,0 +1,91 @@
+.table {
+    margin-top: 50px;
+    thead {
+        tr {
+            th {
+                text-align: center;
+            }
+        }
+    }
+    tbody {
+        justify-content: center;
+        tr {
+            background: white;
+
+            td.product {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                img {
+                    margin: 10px;
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+            td.price {
+                padding-top: 40px;
+                p {
+                    text-align: center;
+                    color: black;
+                    span {
+                        margin-right: 20px;
+                        text-decoration: line-through;
+                        color: red;
+                    }
+                }
+            }
+            td.quantity {
+                padding-top: 40px;
+                width: 10%;
+                text-align: center;
+                input {
+                    border: #e7e7e7 solid 1px;
+                    text-align: center;
+                    width: 50px;
+                }
+            }
+            td.total {
+                padding-top: 40px;
+                text-align: center;
+            }
+            td.checkbox {
+                padding-top: 40px;
+                input{
+                    cursor: pointer;
+                    &:checked {
+                        background-color: #40a944;
+                    }
+                }
+            }
+            td.delete {
+                text-align: center;
+                padding-top: 40px;
+                span {
+                    font-weight: bold;
+                    cursor: pointer;
+                    font-size: 12px;
+                    &:hover{
+                        
+                        color: #40a944;
+                    }
+                }
+            }
+        }
+    }
+}
+div.end {
+    text-align: right;
+    p.total_price{
+        color: black;
+        
+    }
+    button.checkout{
+        background: #40a944;
+        padding: 5px 10px;
+        border-radius: 24px;
+        color: white;
+        &:hover {
+            background: #333;
+        }
+    }
+}
