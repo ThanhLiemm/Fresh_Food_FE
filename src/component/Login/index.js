@@ -3,7 +3,7 @@ import './login.scss'
 import { Form, Button,Container } from 'react-bootstrap'
 import { Link,useHistory} from 'react-router-dom';
 import Banner from '../Shop/banner'
-import { post } from '../../httpHelper';
+import { post, token } from '../../httpHelper';
 import {useDispatch} from 'react-redux'
 import { Login_Action, Logout_Action } from '../../actions/login_logout';
 export default function Login(props){
@@ -31,7 +31,7 @@ export default function Login(props){
                 //re render ui
                 const action = Login_Action();
                 dispatch(action);
-                if(localStorage.role ==="ROLE_USER") history.push('/shop');
+                if(localStorage.role ==="ROLE_USER") history.push('/cart');
                 else history.push('/product');
 
             })

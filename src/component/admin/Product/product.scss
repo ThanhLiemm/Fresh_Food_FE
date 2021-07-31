@@ -1,4 +1,6 @@
 .home {
+    position: relative;
+    min-height: 100vh;
     .shop_content {
         margin-top: 80px !important;
         .container {
@@ -107,9 +109,50 @@
                     // display: flex;
                     // justify-content: space-between;
                         td{
+                            span {
+                                display: inline-block;
+                                margin-top: 40px;
+                            }
+                            text-align: center;
                             img{
                                 width: 100px;
                                 height: 100px;
+                            }
+                            .disable {
+                                color: red;
+                                cursor: pointer;
+                                margin-left: 5px;
+                            }
+                        }
+                }
+                .product_row_disable {
+                    // width: 100%;
+                    // display: flex;
+                    // justify-content: space-between;
+                    
+                        td.opacity{
+                            opacity: 0.3;
+                            span {
+                                display: inline-block;
+                                margin-top: 40px;
+                            }
+                            text-align: center;
+                            img{
+                                width: 100px;
+                                height: 100px;
+                            }
+
+                        }
+                        td {
+                            span {
+                                display: inline-block;
+                                margin-top: 40px;
+                            }
+                            text-align: center;
+                            span.enable {
+                                margin-left: 5px;
+                                color: #40a944;
+                                cursor: pointer;
                             }
                         }
                 }

@@ -3,7 +3,8 @@ import './home.scss'
 export default class Home extends Component {
     render() {
         return (
-            <div>
+            <div className="home_page">
+                <h1>Home Space</h1>
             </div>
         )
     }

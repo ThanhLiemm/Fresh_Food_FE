@@ -4,7 +4,7 @@ import './productdetail.scss'
 import Banner from '../Shop/banner.js'
 import { get } from '../../httpHelper'
 import { Col, Row, Container } from 'react-bootstrap'
-import { FaHeart, FaFacebookF, FaTwitter, FaGooglePlusG, FaPinterest } from 'react-icons/fa'
+import { FaHeart, FaFacebookF, FaTwitter, FaGooglePlusG, FaPinterest, FaArrowCircleRight } from 'react-icons/fa'
 import { useDispatch } from 'react-redux';
 import { AddShopCart, checkDiscount, formatCurrency } from '../../algorithm'
 
@@ -50,7 +50,25 @@ function Productdetail(props) {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        AddShopCart(product, e.target.quantity.value, dispatch);
+        get(`/product/${product.id}`)
+        .then((response)=>{
+            if(e.target.quantity.value>response.data.quantity) {
+                alert("Your quantity should not be greater than "+product.quantity)
+                e.target.quantity.value = response.data.quantity;
+                return ;
+            }
+            else if(e.target.quantity.value<1) {
+                alert("Your quantity should not be less than 1")
+                e.target.quantity.value = 1;
+                return;
+            }
+            else AddShopCart(product, e.target.quantity.value, dispatch);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+        
+        
     }
 
     let name = product.name || ""
@@ -65,9 +83,10 @@ function Productdetail(props) {
     let originalPrice = formatCurrency((product.price || ''));
 
     let priceJsx;
+    let ut = product.unitType || "";
     if (discount === product.price)
-        priceJsx = <p className="price">{originalPrice}</p>;
-    else priceJsx = <p className="price"><span>{originalPrice}</span> {discountPrice}</p>
+        priceJsx = <p className="price">{originalPrice} <span className="unittype">{`/ ${ut}`}</span></p>;
+    else priceJsx = <p className="price"><span>{originalPrice}</span> {discountPrice} <span className="unittype">{`/ ${ut}`}</span></p>
     return (
         <div>
             <Banner name="Product Detail" />
@@ -95,7 +114,7 @@ function Productdetail(props) {
                                 <p className="description">{description}</p>
                                 <div className="form_area">
                                     <form onSubmit={(e) => handleFormSubmit(e)}>
-                                        <input type="number" defaultValue="1" name="quantity"></input>
+                                        <input type="number" defaultValue="1" name="quantity" min ="1" max = {product.quantity}></input>
                                         <button type="submit">ADD TO CART</button>
                                     </form>
                                 </div>

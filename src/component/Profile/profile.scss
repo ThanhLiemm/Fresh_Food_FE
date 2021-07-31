@@ -1,0 +1,29 @@
+.your_profile {
+    .container {
+        display: flex;
+        justify-content: center;
+        form.form_data {
+            width: 800px;
+            margin-top: 50px;
+            border: 1px #333 solid;
+            padding: 30px 60px;
+            div.submit {
+                display: flex;
+                justify-content: center;
+                button {
+                    margin-top: 20px;
+                    margin-left: 30px;
+                    background: #40a944;
+                    padding: 10px;
+                    color: white;
+                    width: 150px;
+                    text-align: center;
+                    border-radius: 24px;
+                    &:hover {
+                        background: #000;
+                    }
+                }
+            }
+        }
+    }
+}

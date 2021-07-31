@@ -14,6 +14,12 @@ import PageNotFound from './component/PageNotFound'
 import Cart from './component/cart'
 import Checkout from './component/Checkout'
 import Product from './component/admin/Product'
+import NewProduct from './component/admin/NewProduct'
+import UpdateProduct from './component/admin/UpdateProduct'
+import Category from './component/admin/Category'
+import Payment from './component/admin/Payment'
+import ListOrder from './component/ListOrder'
+import Profile from './component/Profile'
 
 function App() {
   const shopCart = JSON.parse(localStorage.getItem('shopcart')) || [];
@@ -52,8 +58,12 @@ function App() {
         }} />
 
         <Route exact path="/product/:productid" render={() => {
-          if (localStorage.role === "ROLE_ADMIN") return <PageNotFound />;
+          if (localStorage.role === "ROLE_ADMIN") return <UpdateProduct />;
           else return <ProductDetail />;
+        }} />
+        <Route exact path="/addproduct" render={() => {
+          if (localStorage.role === "ROLE_ADMIN") return <NewProduct />;
+          else return <PageNotFound />;
         }} />
 
         <Route exact path="/cart" render={() => {
@@ -72,9 +82,28 @@ function App() {
         }} />
 
         <Route exact path="/product/" render={() => {
-          if (localStorage.role === "ROLE_ADMIN") return <Product/>;
-          else return <PageNotFound/>;
+          if (localStorage.role === "ROLE_ADMIN") return <Product />;
+          else return <PageNotFound />;
         }} />
+        <Route exact path="/category/" render={() => {
+          if (localStorage.role === "ROLE_ADMIN") return <Category />;
+          else return <PageNotFound />;
+        }} />
+        <Route exact path="/payment/" render={() => {
+          if (localStorage.role === "ROLE_ADMIN") return <Payment />;
+          else return <PageNotFound />;
+        }} />
+
+        <Route exact path="/listorder/" render={() => {
+          if (localStorage.role === "ROLE_ADMIN" || localStorage.role === "ROLE_USER") return <ListOrder />;
+          else return <PageNotFound />;
+        }} />
+
+        <Route exact path="/profile/" render={() => {
+          if (localStorage.role === "ROLE_USER") return <Profile/>;
+          else return <PageNotFound />;
+        }} />
+
 
         <Route path="**" component={PageNotFound} />
         {/* miss product, category, payment */}

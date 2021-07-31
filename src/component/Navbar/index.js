@@ -4,13 +4,13 @@ import icon from '../../asset/icon.png'
 import './navbar.scss'
 import { FaShoppingCart } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
-import {Logout_Action } from '../../actions/login_logout';
+import { Logout_Action } from '../../actions/login_logout';
 
 export default function Header() {
     const numberProduct = useSelector(state => state.cart.number);
-    const user = useSelector(state=>state.user);
+    const user = useSelector(state => state.user);
     let left, right;
     let history = useHistory();
     let dispatch = useDispatch();
@@ -53,15 +53,19 @@ export default function Header() {
                     <Nav.Link as={Link} to="/shop">Shop</Nav.Link>
                     <Nav.Link as={Link} to="/about">About us</Nav.Link>
                     <Nav.Link as={Link} to="/contact">Contact us</Nav.Link>
+
                 </Nav>
             right =
                 <Nav>
                     <Nav.Link as={Link} to="/cart" id="count">
                         <FaShoppingCart /> <span>{numberProduct}</span>
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/customer">
-                        <a>{user.username}</a>
-                    </Nav.Link>
+
+                    <NavDropdown title="Dropdown" title={user.username}>
+                        <NavDropdown.Item as = {Link} to="/listorder" style ={{textDecoration:"none", color:"black"}}>List Order</NavDropdown.Item>
+                        <NavDropdown.Item as = {Link} to="/profile" style ={{textDecoration:"none", color:"black"}}>Profile</NavDropdown.Item>
+                    </NavDropdown>
+
                     <Nav.Link onClick={handleLogout}>
                         <a>Logout</a>
                     </Nav.Link>
@@ -70,9 +74,10 @@ export default function Header() {
         if (user.role === "ROLE_ADMIN") {
             left =
                 <Nav className="me-auto">
-                    <Nav.Link as={Link} to='/' >Product</Nav.Link>
-                    <Nav.Link as={Link} to="/shop">Category</Nav.Link>
-                    <Nav.Link as={Link} to="/about">Payment</Nav.Link>
+                    <Nav.Link as={Link} to='/product' >Product</Nav.Link>
+                    <Nav.Link as={Link} to="/category">Category</Nav.Link>
+                    <Nav.Link as={Link} to="/payment">Payment</Nav.Link>
+                    <Nav.Link as={Link} to="/listorder">Orders</Nav.Link>
                 </Nav>
             right =
                 <Nav>

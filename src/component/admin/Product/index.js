@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Col, Container, Row, Table } from 'react-bootstrap'
 import './product.scss'
-import { get } from '../../../httpHelper'
+import { get, put } from '../../../httpHelper'
 import Pagination from 'react-bootstrap/Pagination'
 import { FaAngleDown, FaThList } from 'react-icons/fa'
 import Banner from '../../Shop/banner'
 import { Link } from 'react-router-dom'
-import { checkDiscount } from '../../../algorithm'
+import { checkDiscount, formatCurrency } from '../../../algorithm'
 
 class RowToolBar extends Component {
     state = {
@@ -39,7 +39,10 @@ class RowToolBar extends Component {
                                 <li onClick={() => (this.handleSortChange("Sort by: Default sorting", 1))}>Sort by: Default sorting</li>
                                 <li onClick={() => (this.handleSortChange("Sort by: Rating sorting", 2))}>Sort by: Rating sorting</li>
                                 <li onClick={() => (this.handleSortChange("Sort by price: Low to high", 3))}>Sort by price: Low to high</li>
-                                <li onClick={() => (this.handleSortChange("Sort by price: high to Low", 4))}>Sort by price: high to Low</li>
+                                <li onClick={() => (this.handleSortChange("Sort by price: High to Low", 4))}>Sort by price: High to low</li>
+                                <li onClick={() => (this.handleSortChange("Sort by id: High to low", 5))}>Sort by id: High to low</li>
+                                <li onClick={() => (this.handleSortChange("Sort by id: Low to high", 6))}>Sort by id: Low to high</li>
+                                <li onClick={() => (this.handleSortChange("Sort by: Category", 7))}>Sort by: Category </li>
                             </ul>
                         </div>
                     </div>
@@ -76,8 +79,8 @@ export default class Shop extends Component {
     state = {
         filter: {
             category: '',
-            sort: 'id',
-            type: 0,
+            sort: 'createdDate',
+            type: 1,
         },
         page: 1,
         limit: 12,
@@ -113,7 +116,7 @@ export default class Shop extends Component {
                 this.setStateProduct(response);
             })
             .catch(erorr => console.log(erorr));
-        window.scrollTo(0, 0);
+
 
     }
     //update category
@@ -134,6 +137,7 @@ export default class Shop extends Component {
         this.setState({
             page: event.target.text
         }, this.updateListProduct);
+        window.scrollTo(0, 0);
     }
     handleCategoryChange = (name) => {
         if (typeof name !== 'undefined') {
@@ -175,8 +179,47 @@ export default class Shop extends Component {
                 type: 1,
             }
         }, this.updateListProduct);
+        if (type === 5) this.setState({
+            filter: {
+                ...this.state.filter,
+                sort: 'id',
+                type: 1,
+            }
+        }, this.updateListProduct);
+        if (type === 6) this.setState({
+            filter: {
+                ...this.state.filter,
+                sort: 'id',
+                type: 0,
+            }
+        }, this.updateListProduct);
+        if (type === 7) this.setState({
+            filter: {
+                ...this.state.filter,
+                sort: 'category_id',
+                type: 1,
+            }
+        }, this.updateListProduct);
     }
+    handleChangeStatus = (e) => {
+        let index = e.target.id;
+        let payload = this.state.listProduct[index];
+        if (payload.status === "INACTIVE")
+            payload.status = "ACTIVE";
+        else
+            payload.status = "INACTIVE";
+        put(`/product/${payload.id}`,payload)
+            .then((response) => {
+                let list = this.state.listProduct;
+                list[index] = response.data;
+                this.setState({ listProduct: list });
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("Can not enable product")
+            })
 
+    }
     render() {
         //setting pagination
         let active = this.state.page;
@@ -192,29 +235,48 @@ export default class Shop extends Component {
         let endItem = startItem + this.state.listProduct.length - 1;
 
         let rows;
-        rows = this.state.listProduct.map((item) => {
+        rows = this.state.listProduct.map((item, index) => {
+            const link = `/product/${item.id}`
             let id = item.id;
-            let url = item.listImage[0].url;
+            let url = item.listImage[0].url || "";
             let name = item.name;
-            let price = checkDiscount(item.price,item.discount,item.deadline)
+            let price = checkDiscount(item.price, item.discount, item.deadline)
             let category_id = item.category_id;
             //cover category_id to category name
             let category = this.state.listCategory.filter((category) => {
                 return category.id == category_id;
             })
-            return <tr className="product_row"> 
-                <td>{id}</td>         
-                <td><img src={url}></img></td>
-                <td>{name}</td>
-                <td>{price}</td>
-                <td>{category.name}</td>
-                <td>{category.name}</td>
-            </tr>
+            if (category.length === 0) category = [{ name: "" }]
+            if (item.status === "INACTIVE") {
+                return <tr className="product_row_disable">
+                    <td className="opacity"><span>{id}</span></td>
+                    <td className="opacity"><img src={url}></img></td>
+                    <td className="opacity"><span>{name}</span></td>
+                    <td className="opacity"><span>{formatCurrency(price)}</span></td>
+                    <td className="opacity"><span>{category[0].name}</span></td>
+                    <td>
+                        <Link to = {link} style={{ textDecoration: "none" }} >Update</Link>
+                        <span className="enable" id={index} onClick={(e) => this.handleChangeStatus(e)}>Enable</span>
+                    </td>
+                </tr>
+            }
+            else
+                return <tr className="product_row">
+                    <td><span>{id}</span></td>
+                    <td><img src={url}></img></td>
+                    <td><span>{name}</span></td>
+                    <td><span>{formatCurrency(price)}</span></td>
+                    <td><span>{category[0].name}</span></td>
+                    <td>
+                        <Link to = {link} style={{ textDecoration: "none" }} >Update</Link>
+                        <span className="disable" id = {index} onClick={(e)=>this.handleChangeStatus(e)} >Disable</span>
+                    </td>
+                </tr>
 
         })
         return (
             <div className="home" >
-                <Banner name="Shop" />
+                <Banner name="Product" />
                 <div className="shop_content">
                     <Container>
                         <Row>
@@ -229,7 +291,7 @@ export default class Shop extends Component {
                                             <th>Name</th>
                                             <th>Price</th>
                                             <th>Category</th>
-                                            <th><Link>Add New</Link></th>
+                                            <th><Link to = '/addproduct'style={{ textDecoration: "none" }}>Add New</Link></th>
                                         </tr>
                                     </thead>
                                     <tbody>

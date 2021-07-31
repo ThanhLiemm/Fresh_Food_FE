@@ -1,4 +1,7 @@
 footer {
+    position: absolute;
+    bottom: -1116;
+    width: 100%;
     margin-top: 80px;
     background: #222;
     color: white;
@@ -11,7 +14,7 @@ footer {
                 h3 {
                     font-size: 20px;
                 }
-                
+
                 .col-lg-2 {
                     div {
                         ul {
@@ -28,49 +31,49 @@ footer {
                     }
                 }
                 .col-lg-4 {
-                  form {
-                    div {
-                        position: relative;
-                        max-width: 100%;
-                        
-                        input {
-                            padding: 0 130px 0 20px;
-                            background: white;
-                            color: #666;
-                            height: 44px;
-                            width: 180px;
-                            font-size: 15px;
-                            width: 100%;
-                            border-radius: 23px;
-                        }
-                        button {
-                            color: white;
-                            background: #40a944;
-                            height: 44px;
-                            font-weight: 400;
-                            margin: 0;
-                            outline: none;
-                            text-align: center;
-                            text-transform: uppercase;
-                            padding: 0 20px;
-                            position: absolute;
-                            top:0;
-                            right: 0;
-                            &:hover{
-                                background: black;
+                    form {
+                        div {
+                            position: relative;
+                            max-width: 100%;
+
+                            input {
+                                padding: 0 130px 0 20px;
+                                background: white;
+                                color: #666;
+                                height: 44px;
+                                width: 180px;
+                                font-size: 15px;
+                                width: 100%;
+                                border-radius: 23px;
                             }
-                            border-top-right-radius: 23px;
-                            border-bottom-right-radius: 23px;
+                            button {
+                                color: white;
+                                background: #40a944;
+                                height: 44px;
+                                font-weight: 400;
+                                margin: 0;
+                                outline: none;
+                                text-align: center;
+                                text-transform: uppercase;
+                                padding: 0 20px;
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                &:hover {
+                                    background: black;
+                                }
+                                border-top-right-radius: 23px;
+                                border-bottom-right-radius: 23px;
+                            }
                         }
                     }
-                  }
                 }
             }
         }
         .footer_bottom {
             padding: 20px 0px;
             border-top: 0.5px solid #656161;
-            p{
+            p {
                 text-align: start;
             }
             div {
@@ -78,7 +81,6 @@ footer {
             }
         }
     }
-
 }
 ul,
 li {
