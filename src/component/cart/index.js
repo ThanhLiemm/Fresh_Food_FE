@@ -71,7 +71,7 @@ export default function Index(props) {
             else priceJsx = <p className="price"><span>{originalPrice}</span> {discountPrice}</p>
 
             let checkbox; //check box display
-            if (item.checked === true)
+            if (item.checked)
                 checkbox = <td className="checkbox"><input type="checkbox" id={index} onChange={(e) => handleCheckBox(e)} defaultChecked></input></td>
             else
                 checkbox = <td className="checkbox"><input type="checkbox" id={index} onChange={(e) => handleCheckBox(e)}></input></td>
