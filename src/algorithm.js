@@ -1,5 +1,6 @@
 
 import { addCart, subCart } from './actions/cart';
+import { get, post } from './httpHelper';
 
 export const checkDiscount = (price,discount,date) =>{
     var myDate = new Date(date);
@@ -15,36 +16,26 @@ export const formatCurrency = (price) =>{
 }
 
 export const AddShopCart = (product,quantity,dispatch) => {
-    let listProduct = JSON.parse(localStorage.getItem('shopcart')) || [];
-        let flat = true;
-        listProduct.map((item) => {
-            if (item.product.id === product.id) {
-                flat = false;
-                item.quantity += parseInt(quantity);
+    console.log("abdef")
+            const formData = {
+                quantity:quantity,
+                checked:true,
+                product:product
             }
-        })
-        if (flat) {
-            listProduct.push({
-                quantity: parseInt(quantity),
-                product: product,
-                checked : true
-            });
-            const action = addCart();
-            dispatch(action);
-        }
-        localStorage.setItem('shopcart', JSON.stringify(listProduct));
+            post('/shopcart',formData)
+            .then((res)=>{
+                console.log(res.data);
+                get('/shopcart/count')
+                .then(res=>{
+                    const action = addCart(parseInt(res.data.Count));
+                    dispatch(action);
+                    localStorage.setItem("count",parseInt(res.data.Count));
+                })
+                .catch(error=>console.log(error.response))
+            })
+            .catch(err=>console.log(err.response));            
 }
 
-export const SubShopCart = (id,dispatch) => {
-    let listProduct = JSON.parse(localStorage.getItem('shopcart')) || [];
-    let newList = listProduct.filter((item)=>{
-        return item.product.id != id;
-    })
-    localStorage.setItem('shopcart', JSON.stringify(newList));
-    const action = subCart();
-    dispatch(action);
-    
-}
 
 export const CheckItemCart = (number,checked) => {
     let listProduct = JSON.parse(localStorage.getItem('shopcart')) || [];

@@ -2,17 +2,20 @@ import React from 'react'
 import './item.scss'
 import '../../scss/reset.scss'
 import { FaHeart, FaShoppingCart} from 'react-icons/fa'
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 import { AddShopCart, checkDiscount, formatCurrency, formatDate } from '../../algorithm';
 
 export default function Item(props) {
-
+    const history = useHistory();
     const dispatch = useDispatch();
     let url = "/product/" + props.product.id;
 
     const handleAddCart = () => {
+        if (localStorage.role === "ROLE_USER")
         AddShopCart(props.product,1,dispatch)
+        else 
+        history.push('/login')
     }
     let price = checkDiscount(props.product.price,props.product.discount,props.product.deadline)
     price = formatCurrency(price);

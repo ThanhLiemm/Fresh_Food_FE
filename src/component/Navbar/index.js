@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import { Logout_Action } from '../../actions/login_logout';
+import { subCart } from '../../actions/cart';
 
 export default function Header() {
     const numberProduct = useSelector(state => state.cart.number);
@@ -19,8 +20,11 @@ export default function Header() {
         localStorage.removeItem("id");
         localStorage.removeItem("username");
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("count");
         const action = Logout_Action();
         dispatch(action);
+        const action2 = subCart(numberProduct);
+        dispatch(action2);
         history.push('/login');
     }
     if (user.username === "") {

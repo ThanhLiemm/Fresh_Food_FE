@@ -67,8 +67,9 @@ function App() {
         }} />
 
         <Route exact path="/cart" render={() => {
-          if (localStorage.role === "ROLE_ADMIN") return <PageNotFound />;
-          else return <Cart />;
+          if (localStorage.role === "ROLE_USER") return <Cart/>;
+          else if(localStorage.role === "ROLE_ADMIN") return <PageNotFound/>
+          else return <Login />;
         }} />
 
 
