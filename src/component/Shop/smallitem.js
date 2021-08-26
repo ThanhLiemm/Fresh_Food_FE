@@ -1,12 +1,12 @@
 import React from 'react'
-import './item.scss'
+import './smallitem.scss'
 import '../../scss/reset.scss'
 import { FaHeart, FaShoppingCart} from 'react-icons/fa'
 import { Link,useHistory } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 import { AddShopCart, checkDiscount, formatCurrency, formatDate } from '../../algorithm';
 
-export default function Item(props) {
+export default function SmallItem(props) {
     const history = useHistory();
     const dispatch = useDispatch();
     let url = "/product/" + props.product.id;
@@ -20,7 +20,7 @@ export default function Item(props) {
     let price = checkDiscount(props.product.price,props.product.discount,props.product.deadline)
     price = formatCurrency(price);
     return (
-        <div className="item">
+        <div className="smallitem">
             <div className="image">
                 <Link to={url}><img src={props.product.listImage[0].url} atl="" /></Link>
             </div>

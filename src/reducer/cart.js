@@ -1,19 +1,24 @@
-const list = JSON.parse(localStorage.getItem('shopcart')) || [];
-const size = list.length;
+import { get } from "../httpHelper"
+
+let count ;
+if(localStorage.role=="ROLE_USER" && localStorage.accessToken){
+    count = localStorage.count || 0;
+}
+else count = 0;
 const initialState = {
-    number: size
+    number: count
 }
 
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_CART': {
             return {
-                number: state.number+1
+                number: action.number
             }
         }
         case 'SUB_CART': {
             return {
-                number: state.number-1
+                number: state.number-action.number
             }
         }
         default: 

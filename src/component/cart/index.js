@@ -1,28 +1,72 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import './cart.scss'
 import Banner from '../Shop/banner'
 import { Table, Container } from 'react-bootstrap'
 import { ChangeQuantity, checkDiscount, CheckItemCart, formatCurrency, SubShopCart } from '../../algorithm';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { get } from '../../httpHelper';
+import { del, get, put } from '../../httpHelper';
+import { subCart } from '../../actions/cart';
 
 export default function Index(props) {
-    const [listProduct, setListProduct] = useState(JSON.parse(localStorage.getItem('shopcart')) || []);
+    const [listProduct, setListProduct] = useState([]);
     let rows;
     let total = 0;
     const dispatch = useDispatch();
     const history = useHistory();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+       fetchShopCart();
+    }, [])
+    const fetchShopCart = ()=> {
+        get('/shopcart')
+        .then((res)=> {
+            console.log(res.data);
+            setListProduct(res.data);
+        })
+        .catch((err)=> {
+            console.log(err.response);
+        })
+    }
+    const putShopCart = (index,number) => {
+        let item = listProduct[index];
+        item.quantity = number;
+        put('/shopcart',item)
+        .then((res)=>{
+            setListProduct(res.data);
+        })
+        .catch((err)=> console.log(err.response));
+    }
+    const putChecked = (index,checked) => {
+        let item = listProduct[index];
+        item.checked = checked;
+        put('/shopcart',item)
+        .then((res)=>{
+            setListProduct(res.data);
+        })
+        .catch((err)=>console.log(err.response));
+    }
+    const deleteItem = (id) => {
+        del(`/shopcart/?shopcartId=${id}`)
+        .then((res)=>{
+            setListProduct(res.data);
+            const action = subCart(1);
+            dispatch(action);
+            localStorage.setItem("count", res.data.length)
+        })
+        .catch((err)=>console.log(err.response));
+    }
     //handle even here
     const handleDelete = (e) => {
         //bo product co id = e.target.id ra khoi localstorage, giam number 1 dv, cap nhat lai listProduct
-        SubShopCart(e.target.id, dispatch);
-        setListProduct(JSON.parse(localStorage.getItem('shopcart')) || []);
+        // SubShopCart(e.target.id, dispatch);
+        // setListProduct(JSON.parse(localStorage.getItem('shopcart')) || []);
+        deleteItem(e.target.id)
+        
     }
 
     const handleCheckBox = (e) => {
-        CheckItemCart(e.target.id, e.target.checked);
-        setListProduct(JSON.parse(localStorage.getItem('shopcart')) || []);
+        putChecked(e.target.id, e.target.checked);      
     }
 
     const handleNumberChange = (e) => {
@@ -44,14 +88,14 @@ export default function Index(props) {
                     return;
                 }
                 else {
-                    ChangeQuantity(index, number);
-                    setListProduct(JSON.parse(localStorage.getItem('shopcart')) || []);
+                    putShopCart(index,number);
                 }
             })
             .catch((error) => console.log(error))
 
     }
     const handleCheckout = () => {
+        console.log("abdef");
         history.push('/checkout')
     }
 
@@ -71,12 +115,12 @@ export default function Index(props) {
             else priceJsx = <p className="price"><span>{originalPrice}</span> {discountPrice}</p>
 
             let checkbox; //check box display
-            if (item.checked === true)
+            if (item.checked)
                 checkbox = <td className="checkbox"><input type="checkbox" id={index} onChange={(e) => handleCheckBox(e)} defaultChecked></input></td>
             else
                 checkbox = <td className="checkbox"><input type="checkbox" id={index} onChange={(e) => handleCheckBox(e)}></input></td>
             return <tr>
-                <td className="delete"><span id={item.product.id} onClick={(e) => handleDelete(e)}>X</span></td>
+                <td className="delete"><span id={item.id} onClick={(e) => handleDelete(e)}>X</span></td>
                 <td className="product"><img src={item.product.listImage[0].url}></img></td>
                 <td className="price">
                     <p>

@@ -1,0 +1,41 @@
+.order_item {
+    cursor: pointer;
+    margin-top: 40px;
+    .order_header {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 5px;
+        border-bottom: 2px solid black;
+        div span {
+            font-size: 20px;
+        }
+        .status_price {
+            width: 320px;
+            display: flex;
+            justify-content: space-between;
+            .status {
+                margin-right: 10px;
+            }
+            .price {
+                font-weight: bold;
+            }
+        }
+    }
+    .order_content {
+        font-size: 18px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        .product_info {
+            margin-left: 50px;
+            width: 310px;
+            img {
+                width: 70px;
+                height: 70px;
+            }
+            span {
+                margin-left: 30px;
+            }
+        }
+    }
+}

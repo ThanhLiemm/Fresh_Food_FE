@@ -3,9 +3,10 @@ import './login.scss'
 import { Form, Button,Container } from 'react-bootstrap'
 import { Link,useHistory} from 'react-router-dom';
 import Banner from '../Shop/banner'
-import { post, token } from '../../httpHelper';
+import { get, post, token } from '../../httpHelper';
 import {useDispatch} from 'react-redux'
 import { Login_Action, Logout_Action } from '../../actions/login_logout';
+import { addCart } from '../../actions/cart';
 export default function Login(props){
         let dispatch = useDispatch();
         let history = useHistory();
@@ -27,11 +28,20 @@ export default function Login(props){
                 localStorage.setItem('username',response.data.username);
                 localStorage.setItem('id',response.data.id);
                 localStorage.setItem('role',response.data.roles[0]);
+                localStorage.setItem('email',response.data.email);
                 alert("Login Success");
                 //re render ui
                 const action = Login_Action();
                 dispatch(action);
-                if(localStorage.role ==="ROLE_USER") history.push('/cart');
+                if(localStorage.role ==="ROLE_USER") {
+                    get('/shopcart/count')
+                    .then(res=>{
+                        localStorage.setItem("count",res.data.Count);
+                        const action = addCart(res.data.Count);
+                        dispatch(action);
+                    })
+                    history.push('/cart');
+                }
                 else history.push('/product');
 
             })
@@ -41,7 +51,7 @@ export default function Login(props){
             });
         }
         return (
-            <div>
+            <div style = {{marginBottom:"50px"}}>
                 <Banner name = "Login"/>
                 <div className="form_login">
                 <Form onSubmit={(e)=>handleSubmit(e)}>

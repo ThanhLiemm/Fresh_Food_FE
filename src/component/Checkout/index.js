@@ -3,31 +3,56 @@ import './checkout.scss'
 import Banner from '../Shop/banner'
 import { Container, Row, Col, Form} from 'react-bootstrap'
 import { checkDiscount, DisableAll, formatCurrency } from '../../algorithm'
-import { get, post } from '../../httpHelper'
+import { get, post, put } from '../../httpHelper'
 import {useHistory} from 'react-router-dom'
 
 export default function Index(props) {
-    const [listProduct, setListProduct] = useState(JSON.parse(localStorage.getItem('shopcart')) || []);
+    const [listProduct, setListProduct] = useState([]);
     const [listPayment, setlistPayment] = useState([{ id: 0, name: '', url: '' }])
-    let buyProducts;
+    const [customer, setcustomer] = useState({})
     let total = 0;
     let history = useHistory();
-    buyProducts = listProduct.map((item, index) => {
+    
+    //get list payment
+    const getPayment = () => {
+        get('/payment')
+            .then((response) => setlistPayment(response.data))
+            .catch((erorr) => console.log(erorr))
+    }
+    //get shopcart
+    const getShopCart = () => {
+        get('/shopcart')
+        .then((response)=>{setListProduct(response.data)})
+        .catch((err)=>{console.log(err.response)});
+    }
+    //get customer
+    const getCustomer = ()=>{
+        get('/customer')
+        .then((res)=>setcustomer(res.data))
+        .catch(err=>console.log(err.response))
+    }
+    useEffect(() => {
+        getPayment();
+        getShopCart();
+        getCustomer();
+    }, [])
+    //diable all product 
+    const unchecked = () => {
+        listProduct.map((item)=>{
+            item.checked = false;
+            put(`/shopcart`,item)
+            .catch(err => console.log(err))
+        })
+    }
+    //show list buy prodcut
+    let buyProducts = listProduct.map((item) => {
         let price = checkDiscount(item.product.price, item.product.discount, item.product.deadline);
         if (item.checked) {
             total += price * item.quantity;
             return <p className="product">{item.product.name} x {item.quantity}<span>{formatCurrency(price * item.quantity)}</span></p>
         }
     })
-    const getPayment = () => {
-        get('/payment')
-            .then((response) => setlistPayment(response.data))
-            .catch((erorr) => console.log(erorr))
-    }
-    useEffect(() => {
-        getPayment();
-    }, [])
-
+    //sho list payment
     let paymentJsx = listPayment.map((item) => {
         return <Form.Check type="radio" label={item.name} name="group" value={item.id} required = "required" />
     })
@@ -42,7 +67,6 @@ export default function Index(props) {
         // let customerId = localStorage.getItem('id');
         // let jwt = `Bearer ${localStorage.getItem('accessToken')}`
         
-        //
         let orderDetailDTOS = [];
         listProduct.map((item) => {
             if(item.checked) {
@@ -65,13 +89,13 @@ export default function Index(props) {
         post('/order',payload)
         .then((response)=>{
             console.log(response)
+            unchecked();
             alert("Order Success, Your Product is delivering!")
-            DisableAll();
             history.push('/shop');
         })
         .catch((error)=>{
             console.log(error)
-            alert(error.response.data.message)
+            alert(error.response)
         });
     }
     return (
@@ -88,28 +112,35 @@ export default function Index(props) {
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label>First Name</Form.Label>
-                                            <Form.Control type="text" placeholder="Enter first name" required="required" name = "firstname"/>
+                                            <Form.Control type="text" placeholder="Enter first name" required="required" name = "firstname"
+                                            value = {customer.firstname}/>
                                         </Form.Group>
 
                                         <Form.Group as={Col} controlId="formGridPassword">
                                             <Form.Label>Last Name</Form.Label>
-                                            <Form.Control type="text" placeholder="Enter last name" required="required" name = "lastname"/>
+                                            <Form.Control type="text" placeholder="Enter last name" required="required" name = "lastname"
+                                            value = {customer.lastname}/>
                                         </Form.Group>
                                     </Row>
 
                                     <Form.Group className="mb-3" controlId="formGridAddress1">
                                         <Form.Label>Address</Form.Label>
-                                        <Form.Control placeholder="1234 Main St" required="required" name = "address"/>
+                                        <Form.Control placeholder="1234 Main St" required="required" name = "address"
+                                        value = {customer.address}/>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formGridAddress2">
                                         <Form.Label>Email</Form.Label>
-                                        <Form.Control type= "email" placeholder="@Example.com" required="required"  name = "email"/>
+                                        <Form.Control type= "email" placeholder="@Example.com" required="required"  name = "email"
+                                        value = {localStorage.email}
+                                        />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formGridAddress2">
                                         <Form.Label>Phone</Form.Label>
-                                        <Form.Control type="tel" placeholder="012345678" required="required"  name = "phone"/>
+                                        <Form.Control type="tel" placeholder="012345678" required="required"  name = "phone"
+                                        value = {customer.phone}
+                                        />
                                     </Form.Group>
                                 </div>
                             </div>

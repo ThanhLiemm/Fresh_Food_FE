@@ -42,7 +42,7 @@ export default function Signup(props){
             })
         }
         return (
-            <div>
+            <div style = {{marginBottom:"50px"}}>
                 <Banner name = "Sign up"/>
                 <div className="form_signup">
                     <Form onSubmit = {(e)=>handleFormSubmit(e)}>

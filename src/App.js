@@ -20,12 +20,23 @@ import Category from './component/admin/Category'
 import Payment from './component/admin/Payment'
 import ListOrder from './component/ListOrder'
 import Profile from './component/Profile'
+import ListOrderCustomer from './component/ListOrderCustomer'
+import Sidebar from './component/Sidebar/Sidebar';
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
+  const user = useSelector(state => state.user);
   const shopCart = JSON.parse(localStorage.getItem('shopcart')) || [];
+  let header;
+  if (user.role == "ROLE_ADMIN") header = <Sidebar />
+  else header = <Header />P
+
+  let footer;
+  if (user.role === "ROLE_ADMIN") footer =<></>
+  else footer = <Footer/>
   return (
     <Router>
-      <Header></Header>
+      {header}
       <Switch>
         <Route exact path="/" render={() => {
           if (localStorage.role === "ROLE_ADMIN") return <PageNotFound />;
@@ -67,16 +78,15 @@ function App() {
         }} />
 
         <Route exact path="/cart" render={() => {
-          if (localStorage.role === "ROLE_ADMIN") return <PageNotFound />;
-          else return <Cart />;
+          if (localStorage.role === "ROLE_USER") return <Cart />;
+          else if (localStorage.role === "ROLE_ADMIN") return <PageNotFound />
+          else return <Login />;
         }} />
 
 
         <Route exact path="/checkout" render={() => {
           if (localStorage.getItem('role') === "ROLE_USER" && localStorage.getItem('username')) {
-            if (shopCart.length !== 0)
-              return <Checkout />;
-            else return <Cart />
+            return <Checkout />;
           }
           else return <Login />;
         }} />
@@ -95,12 +105,13 @@ function App() {
         }} />
 
         <Route exact path="/listorder/" render={() => {
-          if (localStorage.role === "ROLE_ADMIN" || localStorage.role === "ROLE_USER") return <ListOrder />;
+          if (localStorage.role === "ROLE_ADMIN") return <ListOrder />;
+          else if (localStorage.role === "ROLE_USER") return <ListOrderCustomer />;
           else return <PageNotFound />;
         }} />
 
         <Route exact path="/profile/" render={() => {
-          if (localStorage.role === "ROLE_USER") return <Profile/>;
+          if (localStorage.role === "ROLE_USER") return <Profile />;
           else return <PageNotFound />;
         }} />
 
@@ -109,7 +120,7 @@ function App() {
         {/* miss product, category, payment */}
 
       </Switch>
-      <Footer></Footer>
+      {footer}
     </Router>
   );
 }
