@@ -8,6 +8,7 @@ import { statement } from '@babel/template';
 export default function Index() {
     const [listOrder, setlistOrder] = useState([{ orderDetailDTOS: [{ id: 0 }] }]);
     const [listProduct, setlistProduct] = useState([{ name: "" }])
+
     const getListOrder= () => {
         get('/order')
             .then((response) => {
@@ -18,10 +19,12 @@ export default function Index() {
             .catch((error) => alert(error.response.data.message))
     }
     useEffect(() => {
-        getListOrder();
+        window.scrollTo(0, 0);
+        getListOrder();     
     }, [])
 
     const isInitialMount = useRef(true);
+    //load products that are in order
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
@@ -49,6 +52,7 @@ export default function Index() {
         }
     }
         , [listOrder])
+        //for admin
     const handleSelected = (e)=> {
         let index = e.target.id;
         let value = e.target.value;
@@ -131,7 +135,7 @@ export default function Index() {
         </tr>
     })
     return (
-        <div>
+        <div style = {{marginBottom:"50px"}}>
             <Banner name="List Ordered" />
             <Container>
                 <Table striped bordered hover>

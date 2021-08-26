@@ -42,6 +42,7 @@ function Productdetail(props) {
     }, [product])
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         getProduct();
     }, []);
     const handleImageChange = (e) => {

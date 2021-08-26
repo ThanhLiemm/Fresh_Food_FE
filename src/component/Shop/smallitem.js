@@ -1,0 +1,40 @@
+import React from 'react'
+import './smallitem.scss'
+import '../../scss/reset.scss'
+import { FaHeart, FaShoppingCart} from 'react-icons/fa'
+import { Link,useHistory } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
+import { AddShopCart, checkDiscount, formatCurrency, formatDate } from '../../algorithm';
+
+export default function SmallItem(props) {
+    const history = useHistory();
+    const dispatch = useDispatch();
+    let url = "/product/" + props.product.id;
+
+    const handleAddCart = () => {
+        if (localStorage.role === "ROLE_USER")
+        AddShopCart(props.product,1,dispatch)
+        else 
+        history.push('/login')
+    }
+    let price = checkDiscount(props.product.price,props.product.discount,props.product.deadline)
+    price = formatCurrency(price);
+    return (
+        <div className="smallitem">
+            <div className="image">
+                <Link to={url}><img src={props.product.listImage[0].url} atl="" /></Link>
+            </div>
+            <div className="info">
+                <div className="name_price">
+                    <Link to={url}><a>{props.product.name}</a></Link>
+                    <span>{price}</span>
+                </div>
+                <div className="love_shopcart">
+                    <FaHeart /> {props.product.rating}
+                    <FaShoppingCart onClick={handleAddCart} />
+                </div>
+
+            </div>
+        </div>
+    )
+}

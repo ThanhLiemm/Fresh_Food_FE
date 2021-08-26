@@ -28,6 +28,7 @@ export default function Login(props){
                 localStorage.setItem('username',response.data.username);
                 localStorage.setItem('id',response.data.id);
                 localStorage.setItem('role',response.data.roles[0]);
+                localStorage.setItem('email',response.data.email);
                 alert("Login Success");
                 //re render ui
                 const action = Login_Action();
@@ -50,7 +51,7 @@ export default function Login(props){
             });
         }
         return (
-            <div>
+            <div style = {{marginBottom:"50px"}}>
                 <Banner name = "Login"/>
                 <div className="form_login">
                 <Form onSubmit={(e)=>handleSubmit(e)}>

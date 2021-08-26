@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import { Logout_Action } from '../../actions/login_logout';
 import { subCart } from '../../actions/cart';
+import * as AiIcons from 'react-icons/ai';
 
 export default function Header() {
     const numberProduct = useSelector(state => state.cart.number);
@@ -71,7 +72,8 @@ export default function Header() {
                     </NavDropdown>
 
                     <Nav.Link onClick={handleLogout}>
-                        <a>Logout</a>
+                    <AiIcons.AiOutlineLogout 
+                            style={{color:"#ffffff",fontSize:"25px",marginLeft:"15px"}}/>
                     </Nav.Link>
                 </Nav>
         }

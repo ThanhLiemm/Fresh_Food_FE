@@ -15,6 +15,7 @@ export default function Index(props) {
     const dispatch = useDispatch();
     const history = useHistory();
     useEffect(() => {
+        window.scrollTo(0, 0);
        fetchShopCart();
     }, [])
     const fetchShopCart = ()=> {
@@ -94,6 +95,7 @@ export default function Index(props) {
 
     }
     const handleCheckout = () => {
+        console.log("abdef");
         history.push('/checkout')
     }
 

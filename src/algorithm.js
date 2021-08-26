@@ -10,9 +10,18 @@ export const checkDiscount = (price,discount,date) =>{
     }
     else return price;
 }
+export const checkDiscountPast = (price,discount,deadline,date)=>{
+    var myDate = new Date(date);
+    var deadline = new Date(deadline);
+    if(myDate < deadline) {
+        return price*((100-discount)/100);
+    }
+    else return price;
+}
 
 export const formatCurrency = (price) =>{
-    return price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+    let  newPrice = price || "";
+    return newPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
 }
 
 export const AddShopCart = (product,quantity,dispatch) => {
@@ -59,4 +68,11 @@ export const DisableAll = () => {
         item.checked = false;
     })
     localStorage.setItem('shopcart', JSON.stringify(listProduct));
+}
+export const formatDate = (dateTime)=> {
+    let newDate = dateTime || "2021-08-18 01:05:19";
+    var date =  newDate.slice(0,10);
+    let time = newDate.slice(10,19);
+    let formatDate = date.split("-").reverse().join("/");
+    return formatDate + time;
 }

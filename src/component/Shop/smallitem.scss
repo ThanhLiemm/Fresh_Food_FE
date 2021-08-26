@@ -1,0 +1,46 @@
+.smallitem {
+    width: 100%;
+    div.image {
+        img {
+            position: relative;
+            width: 100%;
+            height: 180px;
+        }
+        ul.action {
+            display: flex !important;
+        }
+    }
+    .info {
+        text-align: center;
+        padding-top: 20px;
+        .name_price {
+            a {
+                color: black ;
+                text-decoration: none;
+                font-weight: 400;
+                &:hover {
+                    color: #40a944;
+                }
+            }
+            span {
+                display: block;
+                margin-left: 20px;
+                color: #40a944;
+            }
+        }
+        .love_shopcart {
+            margin-top: 10px; 
+            svg {
+                margin-left: 10px;
+                color:#b8b6b6bf;
+                cursor: pointer;
+                font-size: 22px;
+                &:hover {
+                    color: red;
+                }
+            }        
+        }
+        
+    }
+}
+
