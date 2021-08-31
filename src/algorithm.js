@@ -25,12 +25,15 @@ export const formatCurrency = (price) =>{
 }
 
 export const AddShopCart = (product,quantity,dispatch) => {
-    console.log("abdef")
             const formData = {
                 quantity:quantity,
                 checked:true,
-                product:product
+                product:product,
+                price: product.price,
+                discount: product.discount,
+                deadline: product.deadline,
             }
+
             post('/shopcart',formData)
             .then((res)=>{
                 console.log(res.data);

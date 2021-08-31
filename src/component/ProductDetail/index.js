@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, withRouter,useHistory } from 'react-router-dom'
+import { Link, Redirect, withRouter, useHistory } from 'react-router-dom'
 import './productdetail.scss'
 import Banner from '../Shop/banner.js'
 import { get } from '../../httpHelper'
@@ -17,13 +17,12 @@ function Productdetail(props) {
     let history = useHistory();
     const getProduct = () => {
         get(`/product/${props.match.params.productid}`)
-            .then((response) =>
-                {   
-                    setProduct(response.data)
-                }
+            .then((response) => {
+                setProduct(response.data)
+            }
             )
             .catch((e) => {
-                console.log("abcd"+e);
+                console.log("abcd" + e);
                 history.push('/404')
             });
     }
@@ -52,24 +51,27 @@ function Productdetail(props) {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         get(`/product/${product.id}`)
-        .then((response)=>{
-            if(e.target.quantity.value>response.data.quantity) {
-                alert("Your quantity should not be greater than "+product.quantity)
-                e.target.quantity.value = response.data.quantity;
-                return ;
-            }
-            else if(e.target.quantity.value<1) {
-                alert("Your quantity should not be less than 1")
-                e.target.quantity.value = 1;
-                return;
-            }
-            else AddShopCart(product, e.target.quantity.value, dispatch);
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
-        
-        
+            .then((response) => {
+                if (e.target.quantity.value > response.data.quantity) {
+                    alert("Your quantity should not be greater than " + product.quantity)
+                    e.target.quantity.value = response.data.quantity;
+                    return;
+                }
+                else if (e.target.quantity.value < 1) {
+                    alert("Your quantity should not be less than 1")
+                    e.target.quantity.value = 1;
+                    return;
+                }
+                else if (localStorage.role === "ROLE_USER")
+                    AddShopCart(props.product, 1, dispatch)
+                else
+                    history.push('/login')
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+
     }
 
     let name = product.name || ""
@@ -115,7 +117,7 @@ function Productdetail(props) {
                                 <p className="description">{description}</p>
                                 <div className="form_area">
                                     <form onSubmit={(e) => handleFormSubmit(e)}>
-                                        <input type="number" defaultValue="1" name="quantity" min ="1" max = {product.quantity}></input>
+                                        <input type="number" defaultValue="1" name="quantity" min="1" max={product.quantity}></input>
                                         <button type="submit">ADD TO CART</button>
                                     </form>
                                 </div>

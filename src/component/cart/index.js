@@ -47,7 +47,7 @@ export default function Index(props) {
         .catch((err)=>console.log(err.response));
     }
     const deleteItem = (id) => {
-        del(`/shopcart/?shopcartId=${id}`)
+        del(`/shopcart/?productId=${id}`)
         .then((res)=>{
             setListProduct(res.data);
             const action = subCart(1);
@@ -120,7 +120,7 @@ export default function Index(props) {
             else
                 checkbox = <td className="checkbox"><input type="checkbox" id={index} onChange={(e) => handleCheckBox(e)}></input></td>
             return <tr>
-                <td className="delete"><span id={item.id} onClick={(e) => handleDelete(e)}>X</span></td>
+                <td className="delete"><span id={item.product.id} onClick={(e) => handleDelete(e)}>X</span></td>
                 <td className="product"><img src={item.product.listImage[0].url}></img></td>
                 <td className="price">
                     <p>

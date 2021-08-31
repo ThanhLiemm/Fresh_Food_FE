@@ -29,7 +29,7 @@ function App() {
   const shopCart = JSON.parse(localStorage.getItem('shopcart')) || [];
   let header;
   if (user.role == "ROLE_ADMIN") header = <Sidebar />
-  else header = <Header />P
+  else header = <Header />
 
   let footer;
   if (user.role === "ROLE_ADMIN") footer =<></>
